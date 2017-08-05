@@ -1,15 +1,15 @@
 package auth
 
 import (
-	"github.com/Joematpal/test-api/routes/v1/utils"
-	"github.com/Joematpal/test-api/version"
+	"github.com/Joematpal/test-api/src/v1/utils"
+	"github.com/Joematpal/test-api/src/v1/version"
 )
 
 // Routes for auth
 func Routes(v version.V1) {
-
 	v.Subrouter.Handle("/login",
 		utils.Adapt(
+			nil,
 			SetToken(),
 			CheckUser(v.DB),
 		)).Methods("POST")
@@ -19,12 +19,11 @@ func Routes(v version.V1) {
 			nil,
 			// SetToken(),
 			SignUp(v.DB),
-			// PassConfirm(),
+			PassConfirm(),
 		)).Methods("POST")
 
 	v.Subrouter.Handle("/logout",
 		utils.Adapt(
-
 			nil,
 			RemoveToken(),
 		)).Methods("GET")

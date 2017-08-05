@@ -3,17 +3,19 @@ package users
 import (
 	"database/sql"
 	"fmt"
+
+	uuid "github.com/satori/go.uuid"
 )
 
 // User struct
 type User struct {
-	ID           string `json:"id"`
-	Username     string `json:"username"`
-	Email        string `json:"email"`
-	Password     string `json:"password"`
-	PasswordHash string `json:"passwordHash"`
-	Fname        string `json:"fname"`
-	Lname        string `json:"lname"`
+	ID           uuid.UUID `json:"id"`
+	Username     string    `json:"username"`
+	Email        string    `json:"email"`
+	Password     string    `json:"password"`
+	PasswordHash string    `json:"passwordHash"`
+	Fname        string    `json:"fname"`
+	Lname        string    `json:"lname"`
 }
 
 // NewUser struct
@@ -26,6 +28,20 @@ type NewUser struct {
 	PasswordConfirm string
 }
 
+// Public inferface
+type Public interface {
+	Public() interface{}
+}
+
+// Public thing
+func (u *User) Public() interface{} {
+	return map[string]interface{}{
+		"id":       u.ID,
+		"username": u.Username,
+		"email":    u.Email,
+	}
+}
+
 func (u *User) getUser(db *sql.DB) error {
 	return db.QueryRow("SELECT username FROM users WHERE id=$1;",
 		u.ID).Scan(&u.Username)
@@ -33,7 +49,7 @@ func (u *User) getUser(db *sql.DB) error {
 
 // CheckPass func
 func (u *User) CheckPass(db *sql.DB) error {
-	return db.QueryRow("SELECT passwordHash FROM users WHERE username=$1;", u.Username).Scan(&u.PasswordHash)
+	return db.QueryRow("SELECT passwordHash, email, id FROM users WHERE username=$1;", u.Username).Scan(&u.PasswordHash, &u.Email, &u.ID)
 }
 
 // CreateUser creates a new users

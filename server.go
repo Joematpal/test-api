@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/Joematpal/test-api/routes/v1"
+	"github.com/Joematpal/test-api/src/v1"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 )
@@ -17,7 +17,6 @@ func main() {
 	}
 
 	router := mux.NewRouter()
-	// V1 := v1.V1{}
 
 	v1.Initialize(
 		os.Getenv("APP_DB_USERNAME"),

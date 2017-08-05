@@ -5,20 +5,14 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Joematpal/test-api/routes/v1/auth"
-	"github.com/Joematpal/test-api/routes/v1/products"
-	"github.com/Joematpal/test-api/routes/v1/users"
-	"github.com/Joematpal/test-api/version"
+	"github.com/Joematpal/test-api/src/v1/auth"
+	"github.com/Joematpal/test-api/src/v1/products"
+	"github.com/Joematpal/test-api/src/v1/users"
+	"github.com/Joematpal/test-api/src/v1/version"
 	"github.com/gorilla/mux"
 	// postgres
 	_ "github.com/lib/pq"
 )
-
-// V1 routes is "/api/v1"
-// type V1 struct {
-// 	DB        *sql.DB
-// 	Subrouter *mux.Router
-// }
 
 // Initialize this thing
 func Initialize(user string, password string, dbname string, newRouter *mux.Router) {
@@ -42,4 +36,5 @@ func Initialize(user string, password string, dbname string, newRouter *mux.Rout
 	auth.Routes(v1)
 	users.Routes(v1)
 	products.Routes(v1)
+
 }
