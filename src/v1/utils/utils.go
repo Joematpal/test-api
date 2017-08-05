@@ -6,9 +6,6 @@ import (
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
-
-	// postgres
-	_ "github.com/lib/pq"
 )
 
 // RespondWithError responses with Error in the form of JSON.

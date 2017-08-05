@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Joematpal/test-api/routes/v1/users"
-	"github.com/Joematpal/test-api/routes/v1/utils"
+	"github.com/Joematpal/test-api/src/v1/users"
+	"github.com/Joematpal/test-api/src/v1/utils"
 )
 
 // SetToken is middleware that sets the user's token.

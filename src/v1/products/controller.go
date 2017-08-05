@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Joematpal/test-api/routes/v1/utils"
+	"github.com/Joematpal/test-api/src/v1/utils"
 	"github.com/gorilla/mux"
 )
 
