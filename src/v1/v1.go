@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/Joematpal/test-api/routes/v1/auth"
-	"github.com/Joematpal/test-api/routes/v1/products"
-	"github.com/Joematpal/test-api/routes/v1/users"
-	"github.com/Joematpal/test-api/version"
+	"github.com/Joematpal/test-api/src/v1/auth"
+	"github.com/Joematpal/test-api/src/v1/products"
+	"github.com/Joematpal/test-api/src/v1/users"
+	"github.com/Joematpal/test-api/src/v1/version"
 	"github.com/gorilla/mux"
 	// postgres
 	_ "github.com/lib/pq"
