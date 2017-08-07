@@ -14,9 +14,9 @@ import (
 func GetUser(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
-		id := vars["id"]
+		username := vars["username"]
 
-		u := User{ID: id}
+		u := User{Username: username}
 
 		if err := u.getUser(db); err != nil {
 			utils.RespondWithError(w, http.StatusInternalServerError, err.Error())

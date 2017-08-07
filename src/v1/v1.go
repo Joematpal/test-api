@@ -14,12 +14,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-// V1 routes is "/api/v1"
-// type V1 struct {
-// 	DB        *sql.DB
-// 	Subrouter *mux.Router
-// }
-
 // Initialize this thing
 func Initialize(user string, password string, dbname string, newRouter *mux.Router) {
 	// sslmode=disable this stuff below if wrong
@@ -42,4 +36,5 @@ func Initialize(user string, password string, dbname string, newRouter *mux.Rout
 	auth.Routes(v1)
 	users.Routes(v1)
 	products.Routes(v1)
+
 }
