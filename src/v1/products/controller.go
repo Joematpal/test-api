@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Joematpal/test-api/src/v1/utils"
+	"github.com/Joematpal/test-api/src/v1/utils/respond"
 	"github.com/gorilla/mux"
 )
 
@@ -26,11 +26,11 @@ func GetProducts(db *sql.DB) http.HandlerFunc {
 
 		products, err := p.getProducts(db, start, count)
 		if err != nil {
-			utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
+			respond.With(w, r, http.StatusInternalServerError, nil, err.Error())
 			return
 		}
 
-		utils.RespondWithJSON(w, http.StatusOK, products)
+		respond.With(w, r, http.StatusOK, nil, products)
 	}
 }
 
@@ -40,7 +40,7 @@ func GetProduct(db *sql.DB) http.HandlerFunc {
 		vars := mux.Vars(r)
 		id, err := strconv.Atoi(vars["id"])
 		if err != nil {
-			utils.RespondWithError(w, http.StatusBadRequest, "Invalid product ID")
+			respond.With(w, r, http.StatusBadRequest, nil, "Invalid product ID")
 			return
 		}
 
@@ -48,14 +48,14 @@ func GetProduct(db *sql.DB) http.HandlerFunc {
 		if err := p.getProduct(db); err != nil {
 			switch err {
 			case sql.ErrNoRows:
-				utils.RespondWithError(w, http.StatusNotFound, "Product not found")
+				respond.With(w, r, http.StatusNotFound, nil, "Product not found")
 			default:
-				utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
+				respond.With(w, r, http.StatusInternalServerError, nil, err.Error())
 			}
 			return
 		}
 
-		utils.RespondWithJSON(w, http.StatusOK, p)
+		respond.With(w, r, http.StatusOK, p, nil)
 	}
 }
 

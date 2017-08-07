@@ -1,4 +1,4 @@
-package auth
+package authMdl
 
 import (
 	jwt "github.com/dgrijalva/jwt-go"
@@ -12,6 +12,3 @@ type Session struct {
 	Email    string    `json:"email"`
 	jwt.StandardClaims
 }
-
-// CtxKey for context
-type CtxKey string
