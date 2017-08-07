@@ -1,9 +1,6 @@
 package products
 
-import (
-	"database/sql"
-	"fmt"
-)
+import "database/sql"
 
 //Product struct
 type Product struct {
@@ -57,7 +54,6 @@ func (p *Product) getProducts(db *sql.DB, start, count int) ([]Product, error) {
 	products := []Product{}
 
 	for rows.Next() {
-		fmt.Println("there is stuff in here.")
 		var p Product
 		if err := rows.Scan(&p.ID, &p.Name, &p.Price); err != nil {
 			return nil, err

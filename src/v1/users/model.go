@@ -67,10 +67,11 @@ func (u *User) UpdateUser(db *sql.DB) error {
 	return err
 }
 
-// func (u *NewUser) createUser(db *sql.DB) ([]User, error) {
-// 	return db.QueryRow("SELECT name, price FROM products WHERE id=$1",
-// 		p.ID).Scan(&p.Name, &p.Price)
-// }
+// CheckID looks for the id and returns a user.
+func (u *User) CheckID(db *sql.DB) error {
+	return db.QueryRow("SELECT username, email FROM users WHERE id=$1",
+		u.ID).Scan(&u.Username, &u.Email)
+}
 
 func (u *User) getUsers(db *sql.DB, start, count int) ([]User, error) {
 	fmt.Println("we are in users/models")

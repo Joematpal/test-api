@@ -1,6 +1,7 @@
 package products
 
 import (
+	"github.com/Joematpal/test-api/src/v1/auth"
 	"github.com/Joematpal/test-api/src/v1/utils"
 	"github.com/Joematpal/test-api/src/v1/version"
 )
@@ -15,7 +16,7 @@ func Routes(v version.V1) {
 	v.Subrouter.Handle("/products",
 		utils.Adapt(
 			GetProducts(v.DB),
-			// utils.Validate(),
-			utils.Logging(),
+			auth.Validate(v.DB),
+			// utils.Logging(),
 		)).Methods("GET")
 }

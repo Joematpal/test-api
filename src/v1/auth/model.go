@@ -12,3 +12,6 @@ type Session struct {
 	Email    string    `json:"email"`
 	jwt.StandardClaims
 }
+
+// CtxKey for context
+type CtxKey string
