@@ -36,7 +36,6 @@ func SetToken() utils.Adapter {
 			}
 
 			token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
 			signedToken, _ := token.SignedString([]byte(os.Getenv("TOKEN_SECRET")))
 
 			cookie := http.Cookie{
