@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Joematpal/test-api/src/v1/utils"
+	"github.com/Joematpal/test-api/src/v1/utils/respond"
 	"github.com/gorilla/mux"
 )
 
@@ -19,11 +19,11 @@ func GetUser(db *sql.DB) http.HandlerFunc {
 		u := User{Username: username}
 
 		if err := u.getUser(db); err != nil {
-			utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
+			respond.With(w, r, http.StatusInternalServerError, nil, err.Error())
 			return
 		}
 
-		utils.RespondWithJSON(w, http.StatusOK, u)
+		respond.With(w, r, http.StatusOK, u, nil)
 	}
 }
 
@@ -44,10 +44,10 @@ func GetUsers(db *sql.DB) http.HandlerFunc {
 		fmt.Println("we are in users/controller")
 		users, err := u.getUsers(db, start, count)
 		if err != nil {
-			utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
+			respond.With(w, r, http.StatusInternalServerError, nil, err.Error())
 			return
 		}
 
-		utils.RespondWithJSON(w, http.StatusOK, users)
+		respond.With(w, r, http.StatusOK, users, nil)
 	}
 }
