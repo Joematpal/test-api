@@ -18,7 +18,7 @@ import (
 func SetToken() utils.Adapter {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			uCtx := r.Context().Value(authCtxKey("userid"))
+			uCtx := r.Context().Value(CtxKey("userid"))
 			u := uCtx.(users.User)
 
 			expireToken := time.Now().Add(time.Hour * 8).Unix()
@@ -56,8 +56,6 @@ func SetToken() utils.Adapter {
 	}
 }
 
-type authCtxKey string
-
 // CheckUser is the middleware
 func CheckUser(db *sql.DB) utils.Adapter {
 	return func(h http.Handler) http.Handler {
@@ -80,9 +78,8 @@ func CheckUser(db *sql.DB) utils.Adapter {
 				utils.Respond(w, r, http.StatusBadRequest, nil, "Wrong password")
 				return
 			}
-			fmt.Println("checkuser", u)
-			//TODO: add the json back on to the body
-			ctx := context.WithValue(r.Context(), authCtxKey("userid"), u)
+
+			ctx := context.WithValue(r.Context(), CtxKey("userid"), u)
 			h.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
@@ -90,12 +87,13 @@ func CheckUser(db *sql.DB) utils.Adapter {
 
 // SignUp creates a newUser
 func SignUp(db *sql.DB) utils.Adapter {
+
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			defer db.Close()
 			u := users.User{}
 
 			if err := utils.Decode(r, &u); err != nil {
-				fmt.Println("err", err)
 				utils.Respond(w, r, http.StatusBadRequest, nil, "err at decode")
 				return
 			}
@@ -108,12 +106,10 @@ func SignUp(db *sql.DB) utils.Adapter {
 			}
 			u.PasswordHash = hash
 			u.ID = uuid.NewV4()
-			fmt.Println("interface", u)
 			if err := u.CreateUser(db); err != nil {
 				utils.Respond(w, r, http.StatusPartialContent, nil, err)
 				return
 			}
-
 			h.ServeHTTP(w, r)
 		})
 	}
@@ -130,7 +126,7 @@ func PassConfirm() utils.Adapter {
 				return
 			}
 			if u.Password != u.PasswordConfirm {
-				utils.Respond(w, r, http.StatusPartialContent, nil, "password do not match")
+				utils.Respond(w, r, http.StatusPartialContent, nil, "password and password confirm do not match")
 				return
 			}
 
@@ -141,9 +137,52 @@ func PassConfirm() utils.Adapter {
 
 // RemoveToken from
 func RemoveToken() utils.Adapter {
-	return func(http.Handler) http.Handler {
+	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
+		})
+	}
+}
+
+// Validate checks if the token on the request has a uuid that matches the db.
+func Validate(db *sql.DB) utils.Adapter {
+	return func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			cookie, err := r.Cookie("Auth")
+			if err != nil {
+				utils.Respond(w, r, http.StatusBadRequest, nil, err)
+				return
+			}
+
+			token, e := jwt.ParseWithClaims(cookie.Value, &Session{},
+				func(token *jwt.Token) (interface{}, error) {
+					if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+						return nil, fmt.Errorf("Unexpected signing method")
+					}
+					return []byte(os.Getenv("TOKEN_SECRET")), nil
+				})
+			if e != nil {
+				utils.Respond(w, r, http.StatusBadRequest, nil, e)
+				return
+			}
+
+			claims, ok := token.Claims.(*Session)
+			if !ok && !token.Valid {
+
+				utils.Respond(w, r, http.StatusBadRequest, nil, "please provide a token")
+				return
+			}
+
+			u := users.User{ID: claims.ID}
+
+			if err := u.CheckID(db); err != nil {
+				utils.Respond(w, r, http.StatusBadRequest, nil, err)
+				return
+			}
+
+			ctx := context.WithValue(r.Context(), CtxKey("userid"), u)
+
+			h.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
 }
