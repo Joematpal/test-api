@@ -5,11 +5,11 @@ import (
 	"os"
 	"time"
 
-	"github.com/Joematpal/test-api/src/v1/auth/mdl"
-	"github.com/Joematpal/test-api/src/v1/users"
-	"github.com/Joematpal/test-api/src/v1/utils"
-	"github.com/Joematpal/test-api/src/v1/utils/ctxKeys"
-	"github.com/Joematpal/test-api/src/v1/utils/respond"
+	authMdl "github.com/Joematpal/test-golang-api/src/v1/auth/mdl"
+	"github.com/Joematpal/test-golang-api/src/v1/users"
+	"github.com/Joematpal/test-golang-api/src/v1/utils"
+	"github.com/Joematpal/test-golang-api/src/v1/utils/ctxKeys"
+	"github.com/Joematpal/test-golang-api/src/v1/utils/respond"
 	jwt "github.com/dgrijalva/jwt-go"
 )
 

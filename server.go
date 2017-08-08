@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/Joematpal/test-api/src/v1"
+	"github.com/Joematpal/test-golang-api/src/v1"
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
 )

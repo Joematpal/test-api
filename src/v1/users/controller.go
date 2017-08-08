@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/Joematpal/test-api/src/v1/utils/respond"
+	"github.com/Joematpal/test-golang-api/src/v1/utils/respond"
 	"github.com/gorilla/mux"
 )
 
