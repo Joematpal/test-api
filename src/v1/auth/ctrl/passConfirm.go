@@ -3,9 +3,9 @@ package authCtrl
 import (
 	"net/http"
 
-	"github.com/Joematpal/test-api/src/v1/users"
-	"github.com/Joematpal/test-api/src/v1/utils"
-	"github.com/Joematpal/test-api/src/v1/utils/respond"
+	"github.com/Joematpal/test-golang-api/src/v1/users"
+	"github.com/Joematpal/test-golang-api/src/v1/utils"
+	"github.com/Joematpal/test-golang-api/src/v1/utils/respond"
 )
 
 // PassConfirm checks the password and passwordConfirm.

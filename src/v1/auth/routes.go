@@ -1,9 +1,9 @@
 package auth
 
 import (
-	"github.com/Joematpal/test-api/src/v1/auth/ctrl"
-	"github.com/Joematpal/test-api/src/v1/utils"
-	"github.com/Joematpal/test-api/src/v1/version"
+	authCtrl "github.com/Joematpal/test-golang-api/src/v1/auth/ctrl"
+	"github.com/Joematpal/test-golang-api/src/v1/utils"
+	"github.com/Joematpal/test-golang-api/src/v1/version"
 )
 
 // Routes for auth

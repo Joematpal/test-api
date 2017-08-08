@@ -5,10 +5,10 @@ import (
 	"database/sql"
 	"net/http"
 
-	"github.com/Joematpal/test-api/src/v1/users"
-	"github.com/Joematpal/test-api/src/v1/utils"
-	"github.com/Joematpal/test-api/src/v1/utils/ctxKeys"
-	"github.com/Joematpal/test-api/src/v1/utils/respond"
+	"github.com/Joematpal/test-golang-api/src/v1/users"
+	"github.com/Joematpal/test-golang-api/src/v1/utils"
+	"github.com/Joematpal/test-golang-api/src/v1/utils/ctxKeys"
+	"github.com/Joematpal/test-golang-api/src/v1/utils/respond"
 )
 
 // CheckUser is the middleware
@@ -33,7 +33,9 @@ func CheckUser(db *sql.DB) utils.Adapter {
 				return
 			}
 
+			// fmt.Println(r.Context().Value(ctxKeys.Auth("userid")))
 			ctx := context.WithValue(r.Context(), ctxKeys.Auth("userid"), u)
+
 			h.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}

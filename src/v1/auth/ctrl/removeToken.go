@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/Joematpal/test-api/src/v1/utils"
+	"github.com/Joematpal/test-golang-api/src/v1/utils"
 )
 
 // RemoveToken from
